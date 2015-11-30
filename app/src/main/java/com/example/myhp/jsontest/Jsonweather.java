@@ -58,6 +58,7 @@ public class Jsonweather extends Activity implements View.OnClickListener{
             HttpURLConnection connection=null;
             BufferedReader reader=null;
             double temp;
+            StringBuffer data;
             try {
                 URL url=new URL(params[0]);
                 connection=(HttpURLConnection)url.openConnection();
@@ -72,8 +73,13 @@ public class Jsonweather extends Activity implements View.OnClickListener{
                 JSONObject ob=new JSONObject(report.toString());
                 JSONObject ob1=ob.getJSONObject("main");
                 temp=ob1.getDouble("temp");
+                temp=temp-273;
+                data=new StringBuffer("temperature is: "+temp+" C");
+                temp=ob1.getDouble("pressure");
+                data.append("\n"+"pressure is: "+temp+" hPa");
 
-                return "temperature is:"+temp+" F";
+
+                return data.toString();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
